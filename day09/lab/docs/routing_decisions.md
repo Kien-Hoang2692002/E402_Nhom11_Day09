@@ -120,3 +120,4 @@ Cần cải tiến theo format:
 - Bao gồm: keyword match + risk flag + decision logic  
 - Ví dụ tốt hơn:  
   `matched_keywords=[access, level3] | risk_high=True → route=policy_tool_worker`
+  `matched_keywords=[access, level3] | risk_high=True → route=policy_tool_worker`
