@@ -45,7 +45,6 @@ except ImportError:
 
 # ─────────────────────────────────────────────
 # Tool Definitions (Schema Discovery)
-#
 # Giống với cách MCP server expose tool list cho client
 # ─────────────────────────────────────────────
 
