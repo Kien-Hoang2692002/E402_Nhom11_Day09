@@ -1,0 +1,67 @@
+{
+  "generated_at": "2026-04-14T16:47:13.665585",
+  "day08_single_agent": {
+    "total_questions": 15,
+    "avg_confidence": 0.76,
+    "avg_latency_ms": 7448,
+    "abstain_rate": 0.0,
+    "multi_hop_accuracy": 0.4
+  },
+  "day09_multi_agent": {
+    "total_questions": 15,
+    "avg_confidence": 0.827,
+    "avg_latency_ms": 1,
+    "abstain_rate": 0.6,
+    "routing_distribution": {
+      "retrieval_worker": {
+        "count": 8,
+        "percent": "53%"
+      },
+      "policy_tool_worker": {
+        "count": 7,
+        "percent": "46%"
+      }
+    },
+    "mcp_usage_rate": {
+      "count": 0,
+      "total": 15,
+      "percent": "0%"
+    },
+    "hitl_rate": {
+      "count": 1,
+      "total": 15,
+      "percent": "6%"
+    },
+    "top_sources": [
+      [
+        "fallback",
+        9
+      ],
+      [
+        "escalation.txt",
+        6
+      ],
+      [
+        "sla_p1.txt",
+        6
+      ],
+      [
+        "ticket_priority.txt",
+        4
+      ]
+    ]
+  },
+  "delta": {
+    "confidence": "+0.067 (Day09 better)",
+    "latency_ms": "-7447 (Day09 faster)",
+    "abstain_rate": "+0.60"
+  },
+  "analysis": {
+    "routing_visibility": "Day 09 co route_reason cho tung cau -> dang debug hon Day 08. Day 08 la monolithic pipeline khong co routing.",
+    "latency_comparison": "Day 08: 7448ms vs Day 09: 1ms. Delta: -7447ms. Day 09 nhanh hon vi dung mock workers (khong goi LLM). Trong production, multi-agent se cham hon single-agent do nhieu LLM calls.",
+    "confidence_comparison": "Day 08: 0.76 vs Day 09: 0.827. Delta: +0.067. Multi-agent co confidence cao hon nho co policy checking va structured routing.",
+    "debuggability": "Multi-agent: co the test tung worker doc lap (python workers/retrieval.py). Single-agent: phai debug toan bo pipeline.",
+    "extensibility": "Day 09 co the extend capability qua MCP tools khong can sua core logic. Day 08 phai hard-code vao prompt.",
+    "mcp_benefit": "Day 09 su dung MCP tools cho 0% so cau hoi. Day 08 khong co MCP."
+  }
+}

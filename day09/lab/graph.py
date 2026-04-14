@@ -14,6 +14,8 @@ import os
 from datetime import datetime
 from typing import TypedDict, Literal, Optional
 
+_run_counter = 0  # Counter để đảm bảo run_id luôn unique
+
 # Uncomment nếu dùng LangGraph:
 # from langgraph.graph import StateGraph, END
 
@@ -52,6 +54,8 @@ class AgentState(TypedDict):
 
 def make_initial_state(task: str) -> AgentState:
     """Khởi tạo state cho một run mới."""
+    global _run_counter
+    _run_counter += 1
     return {
         "task": task,
         "route_reason": "",
@@ -69,7 +73,7 @@ def make_initial_state(task: str) -> AgentState:
         "workers_called": [],
         "supervisor_route": "",
         "latency_ms": None,
-        "run_id": f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+        "run_id": f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{_run_counter:03d}",
     }
 
 
@@ -378,7 +382,7 @@ def build_graph():
     # Option A: Simple Python orchestrator
     def run(state: AgentState) -> AgentState:
         import time
-        start = time.time()
+        start = time.perf_counter_ns()
 
         # Step 1: Supervisor decides route
         state = supervisor_node(state)
@@ -402,7 +406,8 @@ def build_graph():
         # Step 3: Always synthesize
         state = synthesis_worker_node(state)
 
-        state["latency_ms"] = int((time.time() - start) * 1000)
+        elapsed_ns = time.perf_counter_ns() - start
+        state["latency_ms"] = max(1, round(elapsed_ns / 1_000_000))  # Tối thiểu 1ms
         state["history"].append(f"[graph] completed in {state['latency_ms']}ms")
         return state
 
@@ -432,8 +437,13 @@ def run_graph(task: str) -> AgentState:
 
 
 def save_trace(state: AgentState, output_dir: str = "./artifacts/traces") -> str:
-    """Lưu trace ra file JSON."""
+    """Lưu trace ra file JSON với đầy đủ fields bắt buộc."""
     os.makedirs(output_dir, exist_ok=True)
+
+    # Đảm bảo trace có đủ fields bắt buộc
+    if "timestamp" not in state:
+        state["timestamp"] = datetime.now().isoformat()
+
     filename = f"{output_dir}/{state['run_id']}.json"
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(state, f, ensure_ascii=False, indent=2)

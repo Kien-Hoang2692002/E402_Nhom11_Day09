@@ -1,0 +1,56 @@
+{
+  "task": "Ticket P1 được tạo lúc 22:47. Ai sẽ nhận thông báo đầu tiên và qua kênh nào? Escalation xảy ra lúc mấy giờ?",
+  "route_reason": "sla / ticket query",
+  "risk_high": false,
+  "needs_tool": true,
+  "hitl_triggered": false,
+  "retrieved_chunks": [
+    {
+      "text": "SLA P1: phản hồi 15 phút, xử lý 4 giờ.",
+      "source": "sla_p1.txt",
+      "score": 0.9
+    },
+    {
+      "text": "Escalation P1 cần notify team lead ngay lập tức.",
+      "source": "escalation.txt",
+      "score": 0.9
+    },
+    {
+      "text": "Ticket xử lý theo mức độ ưu tiên P0 P1 P2.",
+      "source": "ticket_priority.txt",
+      "score": 0.9
+    }
+  ],
+  "retrieved_sources": [
+    "escalation.txt",
+    "sla_p1.txt",
+    "ticket_priority.txt"
+  ],
+  "policy_result": {},
+  "mcp_tools_used": [],
+  "final_answer": "\n[Evidence]\n- SLA P1: phản hồi 15 phút, xử lý 4 giờ. (source: sla_p1.txt)\n- Escalation P1 cần notify team lead ngay lập tức. (source: escalation.txt)\n- Ticket xử lý theo mức độ ưu tiên P0 P1 P2. (source: ticket_priority.txt)",
+  "sources": [
+    "escalation.txt",
+    "sla_p1.txt",
+    "ticket_priority.txt"
+  ],
+  "confidence": 0.7999999999999999,
+  "history": [
+    "[supervisor] received task: ticket p1 được tạo lúc 22:47. ai sẽ nhận thông báo đầu tiên và qua kênh nào? esc",
+    "[supervisor] route=retrieval_worker risk=False tool=True",
+    "[retrieval_worker] called",
+    "[retrieval_worker] retrieved 3 chunks",
+    "[synthesis_worker] called",
+    "[synthesis_worker] generated answer | confidence=0.7999999999999999",
+    "[graph] completed in 1ms"
+  ],
+  "workers_called": [
+    "retrieval_worker",
+    "synthesis_worker"
+  ],
+  "supervisor_route": "retrieval_worker",
+  "latency_ms": 1,
+  "run_id": "run_20260414_164713_011",
+  "question_id": "q11",
+  "timestamp": "2026-04-14T16:47:13.524480"
+}
